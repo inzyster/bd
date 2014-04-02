@@ -31,7 +31,7 @@ class TitleState extends FlxState
 		{
 			FlxG.switchState(new LevelState());
 		}
-		#elseif (ios || android)
+		#elseif (mobile)
 		var touch:FlxTouch = FlxG.touches.getFirst();
 		if (touch != null)
 		{

@@ -13,6 +13,8 @@ import flixel.addons.editors.tiled.TiledObjectGroup;
 import flixel.FlxState;
 import flixel.FlxG;
 import flash.Lib;
+import flixel.input.touch.FlxTouch;
+import flixel.input.touch.FlxTouchManager;
 import flixel.util.FlxPoint;
 #if !js
 import flash.system.System;
@@ -71,9 +73,12 @@ class LevelState extends FlxState
 		_canvasSprite = new FlxSprite(0, 0);
 		_canvasSprite.antialiasing = false;
 		_canvasSprite.makeGraphic(RenderConfig.ProjectionPlaneWidth, RenderConfig.ProjectionPlaneHeight, 0xff00007f);
-		_canvasSprite.scale.set(RenderConfig.PixelSize, RenderConfig.PixelSize);
-		_canvasSprite.x = RenderConfig.ProjectionPlaneWidth / 2;
-		_canvasSprite.y = RenderConfig.ProjectionPlaneHeight / 2;
+		if (RenderConfig.PixelSize > 1)
+		{
+			_canvasSprite.scale.set(RenderConfig.PixelSize, RenderConfig.PixelSize);
+			_canvasSprite.x = RenderConfig.ProjectionPlaneWidth / 2;
+			_canvasSprite.y = RenderConfig.ProjectionPlaneHeight / 2;
+		}
 		
 		_canvas = _canvasSprite.cachedGraphics.bitmap;
 		
@@ -87,27 +92,53 @@ class LevelState extends FlxState
     {
         super.update();		
 		
+		_readInput();
 		_processInput();
 		_renderProjection();
 		
 		Debug.Commit();
     }
 	
+	private function _readInput()
+	{
+		#if desktop
+		InputManager.Exit = FlxG.keys.justReleased.ESCAPE;
+		
+		InputManager.MoveForward = FlxG.keys.pressed.UP;
+		InputManager.MoveBackward = FlxG.keys.pressed.DOWN;
+		InputManager.TurnLeft = FlxG.keys.pressed.LEFT;
+		InputManager.TurnRight = FlxG.keys.pressed.RIGHT;
+		
+		#elseif mobile
+		var touch:FlxTouch = FlxG.touches.getFirst();
+		if (touch != null)
+		{
+			if (touch.pressed)
+			{
+				InputManager.TurnLeft = touch.screenX < FlxG.width / 2;
+				InputManager.TurnRight = touch.screenX >= FlxG.width / 2;
+				InputManager.MoveForward = touch.screenY < FlxG.width / 2;
+				InputManager.MoveBackward = touch.screenY >= FlxG.width / 2;
+			}
+		}
+		#end
+	}
+	
 	private function _processInput()
 	{
 		#if !js
-        if (FlxG.keys.justReleased.ESCAPE)
+        if (InputManager.Exit)
         {
             System.exit(0);
         }		
 		#end
 		
-		if (FlxG.keys.pressed.LEFT)
+		if (InputManager.TurnLeft)
 		{
 			_viewingAngle.rotate( -GameConfig.MovementSpeed * 2.0);
 			_needsRedraw = true;
 		}
-		else if (FlxG.keys.pressed.RIGHT)
+		else if (InputManager.TurnRight)
 		{
 			_viewingAngle.rotate(GameConfig.MovementSpeed * 2.0);
 			_needsRedraw = true;
@@ -119,7 +150,7 @@ class LevelState extends FlxState
         var deltaX:Float = 0.0;
         var deltaY:Float = 0.0;
 
-		if (FlxG.keys.pressed.UP)
+		if (InputManager.MoveForward)
 		{
             deltaX = Math.cos(_viewingAngle.radians) * (GameConfig.MovementSpeed + GameConfig.MovementIncrement);
             deltaY = Math.sin(_viewingAngle.radians) * (GameConfig.MovementSpeed + GameConfig.MovementIncrement);
@@ -130,7 +161,7 @@ class LevelState extends FlxState
             newLocation = _moveOnMap(_unitCoordinates, newLocation, newTestLocation);
             _needsRedraw = true;			
 		}
-		else if (FlxG.keys.pressed.DOWN)
+		else if (InputManager.MoveBackward)
 		{
             deltaX = -Math.cos(_viewingAngle.radians) * (GameConfig.MovementSpeed + GameConfig.MovementIncrement);
             deltaY = -Math.sin(_viewingAngle.radians) * (GameConfig.MovementSpeed + GameConfig.MovementIncrement);
