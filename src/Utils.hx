@@ -11,15 +11,10 @@ class Utils
 	{
         if (distance > RenderConfig.ShadingDistance) 
 		{
-            var factor:Float = distance / (2.0 * RenderConfig.ShadingDistance);
+            var factor:Float = distance / (3.0 * RenderConfig.ShadingDistance);
             factor = Clampf(factor, RenderConfig.ShadingFactorMin, RenderConfig.ShadingFactorMax);
-            var damp:Float = 1.0;
-            #if (mac || ios)
-            {
-            	damp = 4.0;
-            }
-            #end
-            return Clampf((1.0 - ((1.0 / factor) * damp)), 0.0, 1.0);
+            var damp:Float = 2.0;
+            return Clampf((1.0 - (damp / factor)), 0.0, 1.0);
         }
         return 0.0;
     }	

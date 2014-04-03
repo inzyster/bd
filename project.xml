@@ -8,7 +8,7 @@
 	<!-- output -->
 	<app main="Main" file="bd" path="bin" />
 	
-	<window width="0" height="0" fps="60" orientation="landscape" background="#000000" if="mobile" />
+	<window width="0" height="0" fps="60" orientation="landscape" background="#000000" hardware="true" vsync="true" if="mobile" />
 	<window width="640" height="400" fps="60" orientation="portrait" resizable="true" if="web" />
 	<window width="960" height="600" fps="60" orientation="landscape" fullscreen="false" hardware="false" vsync="false" if="flash" />
 	<window width="960" height="600" fps="60" orientation="landscape" fullscreen="true" hardware="true" vsync="true" if="desktop" />

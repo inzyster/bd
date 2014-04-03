@@ -28,7 +28,7 @@ class RenderConfig
 
     public static var ShadingDistance:Float = 10.0;
     public static var ShadingFactorMin:Float = 2.0;
-    public static var ShadingFactorMax:Float = 15.0;
+    public static var ShadingFactorMax:Float = 128.0;
 	
 	public static var TextureWidth:Int = 64;
 	public static var TextureHeight:Int = 64;
