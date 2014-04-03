@@ -110,15 +110,24 @@ class LevelState extends FlxState
 		InputManager.TurnRight = FlxG.keys.pressed.RIGHT;
 		
 		#elseif mobile
+
+		InputManager.TurnLeft = false;
+		InputManager.TurnRight = false;
+		InputManager.MoveForward = false;
+		InputManager.MoveBackward = false;
+
+		var deadZoneX:UInt = 80;
+		var deadZoneY:UInt = 60;
+
 		var touch:FlxTouch = FlxG.touches.getFirst();
 		if (touch != null)
 		{
 			if (touch.pressed)
 			{
-				InputManager.TurnLeft = touch.screenX < FlxG.width / 2;
-				InputManager.TurnRight = touch.screenX >= FlxG.width / 2;
-				InputManager.MoveForward = touch.screenY < FlxG.width / 2;
-				InputManager.MoveBackward = touch.screenY >= FlxG.width / 2;
+				InputManager.TurnLeft = touch.screenX < (FlxG.width - deadZoneX) / 2;
+				InputManager.TurnRight = touch.screenX >= (FlxG.width + deadZoneX) / 2;
+				InputManager.MoveForward = touch.screenY < (FlxG.height - deadZoneY) / 2;
+				InputManager.MoveBackward = touch.screenY >= (FlxG.height + deadZoneY) / 2;
 			}
 		}
 		#end
