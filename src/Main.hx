@@ -59,7 +59,11 @@ class Main extends Sprite
 	private function initialize():Void 
 	{
 		Lib.current.stage.align = StageAlign.TOP_LEFT;
-		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
+        #if !ios
+        {
+		    Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
+        }
+        #end
 		#if (desktop)
 		{
 			Lib.current.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
