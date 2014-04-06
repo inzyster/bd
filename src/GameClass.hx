@@ -24,8 +24,11 @@ class GameClass extends FlxGame
 
         var refSize:Point = RenderConfig.GetReferenceSizeForAspect(ratio);
 
-		RenderConfig.ProjectionPlaneWidth = Std.int(refSize.x / RenderConfig.PixelSize);
-		RenderConfig.ProjectionPlaneHeight = Std.int(refSize.y / RenderConfig.PixelSize);
+        RenderConfig.ReferenceWidth = Std.int(refSize.x);
+        RenderConfig.ReferenceHeight = Std.int(refSize.y);
+
+		RenderConfig.ProjectionPlaneWidth = Std.int(RenderConfig.ReferenceWidth / RenderConfig.PixelSize);
+		RenderConfig.ProjectionPlaneHeight = Std.int(RenderConfig.ReferenceHeight / RenderConfig.PixelSize);
 
 		var ratioX:Float = stageWidth / cast(RenderConfig.ReferenceWidth, Float);
 		var ratioY:Float = stageHeight / cast(RenderConfig.ReferenceHeight, Float);
