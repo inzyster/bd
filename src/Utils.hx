@@ -4,8 +4,30 @@ package ;
  * ...
  * @author Wrong Tomato Factory
  */
+import RenderConfig.AspectRatio;
 class Utils
 {
+
+    public static function GetAspectRatio(width:Int, height:Int):AspectRatio
+    {
+        if (16 * height == 10 * width)
+        {
+            return AspectRatio.ASPECT_16x10;
+        }
+        else if (16 * height == 9 * width)
+        {
+            return AspectRatio.ASPECT_16x9;
+        }
+        else if (4 * height == 3 * width)
+        {
+            return AspectRatio.ASPECT_4x3;
+        }
+        else if (3 * height == 2 * width)
+        {
+            return AspectRatio.ASPECT_3x2;
+        }
+        return AspectRatio.ASPECT_UNKNOWN;
+    }
 
     public static function GetShadingIntensity(distance:Float):Float 
 	{

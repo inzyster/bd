@@ -1,15 +1,25 @@
 package ;
 import flixel.FlxCamera;
 import flixel.FlxG;
+import flash.geom.Point;
 
 /**
  * ...
  * @author Wrong Tomato Factory
  */
+
+enum AspectRatio
+{
+    ASPECT_UNKNOWN;
+    ASPECT_16x9;
+    ASPECT_4x3;
+    ASPECT_3x2;
+    ASPECT_16x10;
+}
+
 class RenderConfig
 {
 
-	public static var UseScale:Bool = false;
 	public static var PixelSize:Int = 2;
 	public static var GlobalScale:Int = 1;
 	
@@ -44,5 +54,33 @@ class RenderConfig
         RayStep = new Angle(FOV.degrees / cast(ProjectionPlaneWidth, Float));
         HalfHeight = Math.round(ProjectionPlaneHeight / 2);
     }	
-	
+
+    public static function GetReferenceSizeForAspect(aspect: AspectRatio):Point
+    {
+        switch (aspect)
+        {
+            case ASPECT_16x10:
+                {
+                    return new Point(320.0, 200.0);
+                }
+            case ASPECT_4x3:
+                {
+                    return new Point(320.0, 240.0);
+                }
+            case ASPECT_3x2:
+                {
+                    return new Point(480.0, 320.0);
+                }
+            case ASPECT_16x9:
+                {
+                    return new Point(384.0, 216.0);
+                }
+            case ASPECT_UNKNOWN:
+                {
+                    return null;
+                }
+        }
+        return null;
+    }
+
 }
