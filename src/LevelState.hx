@@ -80,7 +80,7 @@ class LevelState extends FlxState
 			_canvasSprite.y = RenderConfig.ProjectionPlaneHeight / 2;
 		}
 		
-		_canvas = _canvasSprite.cachedGraphics.bitmap;
+		_canvas = _canvasSprite.pixels;
 		
 		this.add(_canvasSprite);
 		
@@ -101,7 +101,7 @@ class LevelState extends FlxState
 	
 	private function _readInput()
 	{
-		#if desktop
+		#if (desktop || flash)
 		InputManager.Exit = FlxG.keys.justReleased.ESCAPE;
 		
 		InputManager.MoveForward = FlxG.keys.pressed.UP;
@@ -630,6 +630,13 @@ class LevelState extends FlxState
 		}
 		
 		_canvas.unlock();
+		
+		#if flash
+		{
+			_canvasSprite.pixels = _canvas;
+			_canvasSprite.update();
+		}
+		#end
 		
 	}
 	
