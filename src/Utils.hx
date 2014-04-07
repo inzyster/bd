@@ -26,6 +26,10 @@ class Utils
         {
             return AspectRatio.ASPECT_3x2;
         }
+        else if (71 * height == 40 * width)
+        {
+        	return AspectRatio.ASPECT_71x40;
+        }
         return AspectRatio.ASPECT_UNKNOWN;
     }
 

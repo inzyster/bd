@@ -15,6 +15,7 @@ enum AspectRatio
     ASPECT_4x3;
     ASPECT_3x2;
     ASPECT_16x10;
+    ASPECT_71x40; //iPhone 5
 }
 
 class RenderConfig
@@ -74,6 +75,10 @@ class RenderConfig
             case ASPECT_16x9:
                 {
                     return new Point(384.0, 216.0);
+                }
+            case ASPECT_71x40:
+                {
+                    return new Point(568.0, 320.0);
                 }
             case ASPECT_UNKNOWN:
                 {
